@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import dataRecipes from "../../data/recipes.json" with { type: "json" };
 import "./RecipeList.css";
 
@@ -11,7 +12,7 @@ export default function RecipeList() {
   useEffect(() => {
     setRecipes(dataRecipes || []);
   }, []);
-    
+  
   function stringToArray(value) {
     if (!value) return [];
     if (Array.isArray(value)) return value;
@@ -88,8 +89,10 @@ export default function RecipeList() {
         {filteredRecipes.length > 0
           ? <ul className="recipe-list">
               {filteredRecipes.map((recipe, index) =>
-                  <li key={index} className="recipe-item">
-                      {recipe.title}
+                <li key={index} className="recipe-item">
+                  <NavLink to={`/recipe/${recipe.id}`} className="recipe-link">
+                    {recipe.title}
+                  </NavLink>
                 </li>
               )}
             </ul>
