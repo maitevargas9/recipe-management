@@ -1,4 +1,5 @@
 import RecipeManagementLogo from "/src/assets/recipe-management.png";
+import "./Header.css";
 
 export default function Header() {
   return (

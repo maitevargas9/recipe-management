@@ -1,8 +1,14 @@
-import Header from "./components/Header";
+import Header from "./components/shared/Header";
+import RecipeList from "./components/RecipeList/RecipeList";
 import "./App.css";
 
 function App() {
-  return <Header />;
+  return (
+    <div>
+      <Header />
+      <RecipeList />
+    </div>
+  );
 }
 
 export default App;
