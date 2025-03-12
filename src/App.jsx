@@ -1,14 +1,7 @@
-import Header from "./components/shared/Header";
-import RecipeList from "./components/RecipeList/RecipeList";
-import "./App.css";
+import AppRouter from "./routes/Router";
 
 function App() {
-  return (
-    <div>
-      <Header />
-      <RecipeList />
-    </div>
-  );
+  return <AppRouter />;
 }
 
 export default App;
