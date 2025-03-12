@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import FilterSearch from "../FilterSearch/FilterSearch.jsx";
+import {
+  getAllCategories,
+  getAllIngredients,
+  filterRecipes
+} from "../../util/filterUtil.js";
 import dataRecipes from "../../data/recipes.json" with { type: "json" };
 import "./Favorites.css";
 
@@ -20,78 +26,27 @@ export default function Favorites() {
     favoritesData.includes(recipe.id)
   );
     
-  function stringToArray(value) {
-    if (!value) return [];
-    if (Array.isArray(value)) return value;
-    if (typeof value !== "string") return []; 
-    return value
-        .split(",")
-        .map((item) => item.trim())
-        .filter((item) => item !== "");
-  }
-
-  const allCategories = ["All Categories", ...new Set(favoriteRecipes.flatMap((r) => stringToArray(r.category)))];
-  const allIngredients = ["All Ingredients", ...new Set(favoriteRecipes.flatMap((r) => stringToArray(r.ingredients)))];
-
-  const filteredRecipes = favoriteRecipes.filter((recipe) => {
-    const recipeIngredients = Array.isArray(recipe.ingredients)
-      ? recipe.ingredients
-      : stringToArray(recipe.ingredients);
-
-    const recipeCategories = Array.isArray(recipe.category)
-      ? recipe.category
-      : stringToArray(recipe.category);
-
-    const matchesCategory =
-      category === "All Categories" || recipeCategories.includes(category);
-
-    const matchesIngredient =
-      ingredients === "All Ingredients" || recipeIngredients.includes(ingredients);
-
-    const matchesSearch =
-      recipe.title.toLowerCase().includes(search.toLowerCase()) ||
-      recipeCategories.some((cat) =>
-        cat.toLowerCase().includes(search.toLowerCase())
-      ) ||
-      recipeIngredients.some((ingredient) =>
-        ingredient.toLowerCase().includes(search.toLowerCase())
-      );
-
-    return matchesCategory && matchesIngredient && matchesSearch;
-  });
+  const allCategories = getAllCategories(favoriteRecipes);
+  const allIngredients = getAllIngredients(favoriteRecipes);
+  const filteredRecipes = filterRecipes(
+    favoriteRecipes,
+    search,
+    category,
+    ingredients
+  );
 
   return (
     <div className="favorites-container">
-      <div className="search-input-container">
-        <input
-            placeholder="Search by category or ingredient..."
-            onChange={e => setSearch(e.target.value)}
-            value={search}
-            className="search-input"
-        />
-        <select
-            onChange={e => setCategory(e.target.value)}
-            value={category}
-            className="filter-select"
-        >
-            {allCategories.map(item =>
-            <option key={item} value={item}>
-                {item}
-            </option>
-            )}
-        </select>
-        <select
-            onChange={e => setIngredients(e.target.value)}
-            value={ingredients}
-            className="filter-select"
-        >
-            {allIngredients.map(item =>
-            <option key={item} value={item}>
-                {item}
-            </option>
-            )}
-        </select>
-      </div>
+      <FilterSearch
+        search={search}
+        setSearch={setSearch}
+        category={category}
+        setCategory={setCategory}
+        ingredients={ingredients}
+        setIngredients={setIngredients}
+        allCategories={allCategories}
+        allIngredients={allIngredients}
+      />
       <div className="favorite-recipe-list">
         {filteredRecipes.length === 0
           ? <p className="no-favorites">No matching favorites found.</p>
