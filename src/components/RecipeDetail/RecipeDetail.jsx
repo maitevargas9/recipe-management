@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { addFavorite, removeFavorite } from "../../store/store";
+import { NavLink, useParams } from "react-router-dom";
+import { addFavorite, removeFavorite, deleteRecipe } from "../../store/store";
 import dataRecipes from "../../data/recipes.json" with { type: "json" };
 import "./RecipeDetail.css";
 
@@ -14,8 +14,13 @@ export default function RecipeDetail() {
   const isFavorite = favorites.includes(id);
 
   useEffect(() => {
-    setRecipes(dataRecipes || []);
+    const savedRecipes = JSON.parse(localStorage.getItem("recipes")) || [];
+    setRecipes(savedRecipes);
   }, []);
+
+  const handleDelete = () => {
+    dispatch(deleteRecipe(id));
+  };
 
   if (!recipe) {
     return <p>Recipe not found.</p>;
@@ -41,6 +46,12 @@ export default function RecipeDetail() {
           isFavorite ? dispatch(removeFavorite(id)) : dispatch(addFavorite(id))}
       >
         {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+      </button>
+      <NavLink to={`/edit-recipe/${recipe.id}`}>
+        <button className="favorite-btn">Edit Recipe</button>
+      </NavLink>
+      <button className="favorite-btn" onClick={handleDelete}>
+        Delete Recipe
       </button>
     </div>
   );

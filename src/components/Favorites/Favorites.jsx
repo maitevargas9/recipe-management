@@ -18,8 +18,9 @@ export default function Favorites() {
 
   useEffect(() => {
     const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    const savedRecipes = JSON.parse(localStorage.getItem("recipes")) || [];
     setFavoritesData(savedFavorites);
-    setRecipesData(dataRecipes || []);
+    setRecipesData(savedRecipes);
   }, []);
     
   const favoriteRecipes = recipesData.filter(recipe =>

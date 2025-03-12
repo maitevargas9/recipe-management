@@ -6,6 +6,11 @@ export default function Navigation() {
     <nav className="navbar">
       <ul className="nav-list">
         <li className="nav-item">
+          <NavLink to="/add-recipe" className="nav-link">
+            <span>New Recipe</span>
+          </NavLink>
+        </li>
+        <li className="nav-item">
           <NavLink to="/" className="nav-link">
             <span>Recipe List</span>
           </NavLink>

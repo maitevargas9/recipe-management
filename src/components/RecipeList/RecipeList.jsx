@@ -16,7 +16,8 @@ export default function RecipeList() {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    setRecipes(dataRecipes || []);
+    const savedRecipes = JSON.parse(localStorage.getItem("recipes")) || [];
+    setRecipes(savedRecipes);
   }, []);
   
   const allCategories = getAllCategories(recipes);
