@@ -16,8 +16,12 @@ const router = createBrowserRouter([
       { path: "recipe/:id", element: <RecipeDetailPage /> },
       { path: "favorites", element: <FavoritesPage /> },
       { path: "add-recipe", element: <RecipeFormPage /> },
-      { path: "edit-recipe/:id", element: <RecipeFormPage /> }
+      { path: "edit-recipe/:id", element: <RecipeFormPage /> },
+      { path: "*", element: <div>Page not found</div> }
     ]
+  },
+  {
+    basename: "/recipe-management"
   }
 ]);
 
